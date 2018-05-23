@@ -1,4 +1,5 @@
 <p align="center">
+    <img src="https://travis-ci.org/mikeyscode/commander.svg?branch=develop" alt="Travis Build Status">
     <img src="https://codecov.io/gh/mikeyscode/commander" alt="Coverage Report">
     <img src="https://goreportcard.com/badge/github.com/mikeyscode/commander" alt="Go Report Card">
     <a href="https://godoc.org/github.com/mikeyscode/commander"><img src="https://godoc.org/github.com/mikeyscode/commander?status.svg" alt="GoDoc"></a>
