@@ -1,6 +1,7 @@
 <p align="center">
-    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License"/>
+    <img src="https://goreportcard.com/badge/github.com/mikeyscode/commander" alt="Go Report Card">
     <a href="https://godoc.org/github.com/mikeyscode/commander"><img src="https://godoc.org/github.com/mikeyscode/commander?status.svg" alt="GoDoc"></a>
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License"/>
 </p>
 
 
