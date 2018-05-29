@@ -39,7 +39,7 @@ func NewConsole() (*Console, error) {
 		return &Console{os: t}, nil
 	}
 
-	return nil, fmt.Errorf("unknown runetime, could not create console instance")
+	return nil, fmt.Errorf("unknown runtime, could not create console instance")
 }
 
 // LinuxConsole acts as a shell instance for the linux terminal
