@@ -12,7 +12,7 @@ Commander is a basic exec wrapper to provide a cleaner interface for executing m
 
 # Usage
 ```go
-shell := commander.NewConsole()
+shell := commander.New()
 
 shell.Add("cd /home/user/Projects/my-awesome-project")
 shell.Add("git status")
