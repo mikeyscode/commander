@@ -8,7 +8,7 @@ import (
 )
 
 func TestAddToConsole(t *testing.T) {
-	c, _ := commander.NewConsole()
+	c, _ := commander.New()
 	c.Add("foo bar")
 
 	assert.NotEmpty(t, c.Commands)
@@ -16,7 +16,7 @@ func TestAddToConsole(t *testing.T) {
 }
 
 func TestRunConsoleWithSingleCommand(t *testing.T) {
-	c, _ := commander.NewConsole()
+	c, _ := commander.New()
 	c.Add("echo 'Hello'")
 
 	res, err := c.Run()
@@ -28,7 +28,7 @@ func TestRunConsoleWithSingleCommand(t *testing.T) {
 }
 
 func TestRunConsoleWithMultipleCommands(t *testing.T) {
-	c, _ := commander.NewConsole()
+	c, _ := commander.New()
 	c.Add("echo 'Hello'")
 	c.Add("echo 'World'")
 
@@ -42,7 +42,7 @@ func TestRunConsoleWithMultipleCommands(t *testing.T) {
 }
 
 func TestRunConsoleWithInvalidCommand(t *testing.T) {
-	c, _ := commander.NewConsole()
+	c, _ := commander.New()
 	c.Add("foo")
 
 	_, err := c.Run()

@@ -33,8 +33,8 @@ var consoles = map[string]Runnable{
 	"windows": WindowsConsole{},
 }
 
-// NewConsole creates a console instance dependent on OS at runtime
-func NewConsole() (*Console, error) {
+// New creates a console instance dependent on OS at runtime
+func New() (*Console, error) {
 	if t, ok := consoles[runtime.GOOS]; ok {
 		return &Console{os: t}, nil
 	}
