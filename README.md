@@ -27,3 +27,5 @@ fmt.Printf("Output: %s", result)
 
 # Contributing
 If you wish to contribute to this project, you are welcome to raise a Pull Request into Develop from a feature branch to be reviewed. Outside that you are welcome to create issues for any problems that you come across.
+
+*Small side note: Thank you to @gophreak for going through and reviewing the code and refactoring it.*
