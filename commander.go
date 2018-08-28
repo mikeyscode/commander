@@ -3,19 +3,64 @@ package commander
 import (
 	"fmt"
 	"os/exec"
-	"runtime"
 	"strings"
 )
-
-// The Runnable interface defines the necessary requirements to run shell commands
-type Runnable interface {
-	Run([]string) ([]byte, error)
-}
 
 // Console acts as a storage unit for all actions to be performed on a single shell
 type Console struct {
 	Commands []string
-	os       Runnable
+}
+
+// os console standard properties
+type osConsole struct {
+	cmd,
+	arg,
+	sep string
+}
+
+// windows acts as a shell instance for Windows Cmd
+type windows struct {
+	osConsole
+}
+
+// linux acts as a shell instance for Linux Cmd
+type linux struct {
+	osConsole
+}
+
+func (o osConsole) GetCommand() string {
+	return o.cmd
+}
+
+func (o osConsole) GetArg() string {
+	return o.arg
+}
+
+func (o osConsole) GetSeperator() string {
+	return o.arg
+}
+
+type runnable interface {
+	GetCommand() string
+	GetArg() string
+	GetSeperator() string
+}
+
+var consoles = map[string]runnable{
+	"linux": linux{
+		osConsole: osConsole{
+			cmd: "/bin/sh",
+			arg: "-c",
+			sep: ";",
+		},
+	},
+	"windows": windows{
+		osConsole: osConsole{
+			cmd: "Cmd",
+			arg: "/c",
+			sep: "&&",
+		},
+	},
 }
 
 // Add will append a command onto the command list
@@ -24,52 +69,20 @@ func (c *Console) Add(cmd string) {
 }
 
 // Run will execute the commands against the internal shell
-func (c *Console) Run() ([]byte, error) {
-	return c.os.Run(c.Commands)
-}
-
-var consoles = map[string]Runnable{
-	"linux":   LinuxConsole{},
-	"windows": WindowsConsole{},
-}
-
-// New creates a console instance dependent on OS at runtime
-func New() (*Console, error) {
-	if t, ok := consoles[runtime.GOOS]; ok {
-		return &Console{os: t}, nil
+func (c *Console) Run(goos string) ([]byte, error) {
+	if _, ok := consoles[goos]; !ok {
+		return nil, fmt.Errorf("unknown runtime, could not create console instance")
 	}
 
-	return nil, fmt.Errorf("unknown runtime, could not create console instance")
+	return c.run(consoles[goos], c.Commands)
 }
-
-// LinuxConsole acts as a shell instance for the linux terminal
-type LinuxConsole struct{}
 
 // Run will execute all current commands within the console on the same shell instance
-func (l LinuxConsole) Run(commands []string) ([]byte, error) {
-	commandSequence := strings.Join(commands, ";")
-	command := exec.Command("/bin/sh", "-c", commandSequence)
+func (c *Console) run(r runnable, commands []string) ([]byte, error) {
+	commandSequence := strings.Join(commands, r.GetSeperator())
 
-	result, err := command.CombinedOutput()
-	if err != nil {
-		return nil, err
-	}
+	cmd := r.GetCommand()
+	arg := r.GetArg()
 
-	return result, nil
-}
-
-// WindowsConsole acts as a shell instance for Windows cmd
-type WindowsConsole struct{}
-
-// Run will execute all current commands within the console on the same shell instance
-func (w WindowsConsole) Run(commands []string) ([]byte, error) {
-	commandSequence := strings.Join(commands, " && ")
-	command := exec.Command("cmd", "/c", commandSequence)
-
-	result, err := command.CombinedOutput()
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return exec.Command(cmd, arg, commandSequence).CombinedOutput()
 }
