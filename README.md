@@ -12,12 +12,12 @@ Commander is a basic exec wrapper to provide a cleaner interface for executing m
 
 # Usage
 ```go
-shell := commander.New()
+shell := commander.Console{}
 
 shell.Add("cd /home/user/Projects/my-awesome-project")
 shell.Add("git status")
 
-result, err := shell.Run()
+result, err := shell.Run("linux")
 if err != nil {
     panic(err)
 }
@@ -27,3 +27,5 @@ fmt.Printf("Output: %s", result)
 
 # Contributing
 If you wish to contribute to this project, you are welcome to raise a Pull Request into Develop from a feature branch to be reviewed. Outside that you are welcome to create issues for any problems that you come across.
+
+*Small side note: Thank you to @gophreak for going through, reviewing the code and refactoring it.*
